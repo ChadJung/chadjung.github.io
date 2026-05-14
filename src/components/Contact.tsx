@@ -11,7 +11,7 @@ import { SectionHeader } from './SectionHeader'
 // Monospace wordmark band for the footer (Latin only — keeps alignment).
 const FOOTER_ART = String.raw`
 ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·
-   J U N G   S A N G J U N   /   F U L L - S T A C K
+   S A N G J U N   J U N G   /   F U L L - S T A C K
 ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·  ·
 `
 

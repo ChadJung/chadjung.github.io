@@ -94,6 +94,8 @@ export function Projects() {
 
 /* ------------------------------------------------------------------ */
 /* Project card — numbered, typographic, no emoji thumbnail.            */
+/* The whole card is the click target; the "view details" line is just  */
+/* a visual cue. Exposed as a button for keyboard + screen-reader use.  */
 /* ------------------------------------------------------------------ */
 function ProjectCard({
   project,
@@ -107,7 +109,19 @@ function ProjectCard({
   const { lang, t } = useApp()
 
   return (
-    <article className="ticked group relative flex flex-col border border-border bg-surface p-5 transition-colors hover:border-accent-hover">
+    <article
+      role="button"
+      tabIndex={0}
+      aria-label={`${project.name[lang]} — ${t('viewDetails')}`}
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onOpen()
+        }
+      }}
+      className="ticked group relative flex cursor-pointer flex-col border border-border bg-surface p-5 transition-colors hover:border-accent-hover"
+    >
       {/* Index + status */}
       <div className="flex items-center justify-between">
         <span className="font-mono text-[11px] text-text-faint">
@@ -129,17 +143,13 @@ function ProjectCard({
         <StackTags stack={project.stack} limit={4} />
       </div>
 
-      {/* CTA */}
-      <button
-        type="button"
-        onClick={onOpen}
-        className="mt-5 flex items-center gap-2 self-start font-mono text-xs text-text-muted transition-colors group-hover:text-accent"
-      >
+      {/* Visual cue — the whole card is already clickable */}
+      <span className="mt-5 flex items-center gap-2 self-start font-mono text-xs text-text-muted transition-colors group-hover:text-accent">
         {t('viewDetails')}
         <span className="transition-transform group-hover:translate-x-0.5">
           {'->'}
         </span>
-      </button>
+      </span>
     </article>
   )
 }

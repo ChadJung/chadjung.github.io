@@ -2,12 +2,12 @@ import { useApp, THEMES } from '../context/AppContext'
 import type { Theme } from '../data/types'
 
 /**
- * @file Segmented control for picking one of the 3 formal themes.
+ * @file Flat monospace theme picker — one of 3 formal themes.
  */
 const THEME_LABEL: Record<Theme, string> = {
-  dark: 'Dark',
-  light: 'Light',
-  navy: 'Navy',
+  dark: 'dark',
+  light: 'light',
+  navy: 'navy',
 }
 
 export function ThemeSwitcher() {
@@ -17,7 +17,7 @@ export function ThemeSwitcher() {
     <div
       role="group"
       aria-label={t('themeLabel')}
-      className="flex items-center rounded-full border border-border bg-surface p-0.5"
+      className="flex items-center gap-2 font-mono text-[11px]"
     >
       {THEMES.map((option) => (
         <button
@@ -25,13 +25,13 @@ export function ThemeSwitcher() {
           type="button"
           onClick={() => setTheme(option)}
           aria-pressed={theme === option}
-          className={`rounded-full px-2.5 py-1 text-xs font-medium transition-colors ${
+          className={`transition-colors ${
             theme === option
-              ? 'bg-accent text-white'
-              : 'text-text-muted hover:text-text'
+              ? 'text-accent'
+              : 'text-text-faint hover:text-text'
           }`}
         >
-          {THEME_LABEL[option]}
+          {theme === option ? `[${THEME_LABEL[option]}]` : THEME_LABEL[option]}
         </button>
       ))}
     </div>

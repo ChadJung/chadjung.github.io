@@ -14,10 +14,10 @@ import { Contact } from './components/Contact'
 function App() {
   return (
     <AppProvider>
-      <div className="min-h-screen bg-bg text-text">
+      <div className="min-h-screen text-text">
         <a
           href="#home"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:bg-accent focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:font-semibold focus:text-on-accent"
         >
           Skip to content
         </a>

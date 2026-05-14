@@ -1,95 +1,175 @@
 @import "tailwindcss";
 
-/* ------------------------------------------------------------------ */
-/* Brand scale: warm amber accent (shared across all 3 themes)         */
-/* ------------------------------------------------------------------ */
+/* ================================================================== */
+/* Design language: "engineering notebook" — a calm, formal technical  */
+/* document. Pretendard for text, IBM Plex Mono for labels/metadata,   */
+/* hairline rules, a faint graph-paper grid, one restrained amber.     */
+/* ================================================================== */
+
 @theme {
-  --color-brand-50: #fff8eb;
-  --color-brand-100: #ffedc7;
-  --color-brand-200: #ffd98a;
-  --color-brand-300: #ffc04d;
-  --color-brand-400: #ffa61f;
-  --color-brand-500: #f98a06;
-  --color-brand-600: #dd6602;
-  --color-brand-700: #b74706;
-  --color-brand-800: #94370c;
-  --color-brand-900: #7a2f0d;
+  --font-sans: "Pretendard Variable", Pretendard, ui-sans-serif, system-ui,
+    "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", "Cascadia Mono",
+    Menlo, Consolas, monospace;
 }
 
 /* ------------------------------------------------------------------ */
-/* Semantic theme tokens — mapped per data-theme on <html>.            */
-/* dark = default, light, navy. All formal/calm + amber accent.        */
+/* Semantic theme tokens — switched by [data-theme] on <html>.         */
+/* dark = default · light · navy. All formal/calm + amber accent.      */
 /* ------------------------------------------------------------------ */
 :root,
 [data-theme="dark"] {
-  --bg: #15171c;
-  --surface: #1c1f26;
-  --surface-raised: #242832;
-  --text: #e8eaed;
-  --text-muted: #9aa0ab;
-  --border: #2e323c;
+  --bg: #0c0e11;
+  --surface: #111317;
+  --surface-raised: #171a1f;
+  --text: #e6e8eb;
+  --text-muted: #8b9099;
+  --text-faint: #5b606a;
+  --border: #21242a;
+  --border-strong: #2f333b;
+  --grid: rgba(255, 255, 255, 0.022);
   --accent: #f98a06;
   --accent-hover: #ffa61f;
+  --on-accent: #0c0e11;
 }
 
 [data-theme="light"] {
-  --bg: #f7f7f5;
+  --bg: #faf9f6;
   --surface: #ffffff;
-  --surface-raised: #ffffff;
-  --text: #1c1f26;
-  --text-muted: #5f636b;
-  --border: #e3e4e2;
-  --accent: #dd6602;
-  --accent-hover: #b74706;
+  --surface-raised: #f3f2ee;
+  --text: #16181c;
+  --text-muted: #565a62;
+  --text-faint: #9b9ea5;
+  --border: #e4e2da;
+  --border-strong: #d2cfc4;
+  --grid: rgba(0, 0, 0, 0.028);
+  --accent: #c2620c;
+  --accent-hover: #9f4e08;
+  --on-accent: #ffffff;
 }
 
 [data-theme="navy"] {
-  --bg: #0f1729;
-  --surface: #16203a;
-  --surface-raised: #1e2a48;
-  --text: #e6eaf2;
-  --text-muted: #94a0b8;
-  --border: #283656;
-  --accent: #f98a06;
-  --accent-hover: #ffa61f;
+  --bg: #0a1020;
+  --surface: #0f1729;
+  --surface-raised: #151f37;
+  --text: #e3e8f1;
+  --text-muted: #8794a9;
+  --text-faint: #586379;
+  --border: #1d2740;
+  --border-strong: #2b3854;
+  --grid: rgba(148, 163, 184, 0.035);
+  --accent: #f9a826;
+  --accent-hover: #ffbe4d;
+  --on-accent: #0a1020;
 }
 
-/* Expose semantic tokens to Tailwind v4 utilities (bg-surface, etc.) */
+/* Expose semantic tokens to Tailwind v4 utilities (bg-surface, etc.). */
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
   --color-text: var(--text);
   --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
 }
 
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
 html {
   scroll-behavior: smooth;
-  /* offset for fixed nav when jumping to anchors */
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 4.5rem;
 }
 
 body {
   margin: 0;
+  font-family: var(--font-sans);
   background-color: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* faint graph-paper grid — the "engineering notebook" texture */
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: -1px -1px;
 }
 
-/* Visible focus ring for keyboard users across the whole app */
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 1.5px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
-/* Respect reduced-motion preference */
+/* ------------------------------------------------------------------ */
+/* Detail primitives                                                   */
+/* ------------------------------------------------------------------ */
+
+/* Corner ticks — a subtle technical-drawing mark on cards.            */
+/* Two diagonal L-marks; they pick up the accent on hover.             */
+.ticked::before,
+.ticked::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  pointer-events: none;
+  border-color: var(--border-strong);
+  transition: border-color 0.2s ease;
+}
+.ticked::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1.5px solid var(--border-strong);
+  border-left: 1.5px solid var(--border-strong);
+}
+.ticked::after {
+  right: -1px;
+  bottom: -1px;
+  border-bottom: 1.5px solid var(--border-strong);
+  border-right: 1.5px solid var(--border-strong);
+}
+.ticked:hover::before,
+.ticked:hover::after {
+  border-color: var(--accent);
+}
+
+/* Staggered page-load reveal — used only for the hero block.          */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.reveal {
+  opacity: 0;
+  animation: reveal-up 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ------------------------------------------------------------------ */
+/* Reduced motion                                                      */
+/* ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    animation: none;
   }
   *,
   *::before,

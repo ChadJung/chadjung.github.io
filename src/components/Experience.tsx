@@ -3,55 +3,68 @@ import { experiences } from '../data/experience'
 import { SectionHeader } from './SectionHeader'
 
 /**
- * @file Experience section (#experience): timeline-style company cards
- * with role, period, location and achievement bullets.
+ * @file Experience section (#experience) — each role rendered as a
+ * log-style entry: a hairline-bordered card with a metadata header and
+ * numbered achievement rows.
  */
 export function Experience() {
   const { lang, t } = useApp()
 
   return (
-    <section id="experience" className="px-5 py-24 sm:px-8">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeader title={t('sectionExperience')} />
+    <section
+      id="experience"
+      className="border-t border-border px-5 py-20 sm:px-8 sm:py-28"
+    >
+      <div className="mx-auto max-w-5xl">
+        <SectionHeader
+          index="02"
+          title={t('sectionExperience')}
+          en="Experience"
+        />
 
-        <ol className="relative ml-3 border-l border-border">
+        <div className="flex flex-col gap-8">
           {experiences.map((exp) => (
-            <li key={exp.id} className="mb-10 pl-8 last:mb-0">
-              {/* Timeline node */}
-              <span
-                aria-hidden="true"
-                className="absolute -left-[7px] mt-1.5 h-3.5 w-3.5 rounded-full border-2 border-bg bg-accent"
-              />
-              <div className="rounded-xl border border-border bg-surface p-6">
-                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h3 className="text-lg font-semibold text-text">
+            <article
+              key={exp.id}
+              className="ticked relative border border-border bg-surface"
+            >
+              {/* Metadata header */}
+              <header className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-b border-border px-5 py-4 sm:px-6">
+                <div>
+                  <h3 className="text-lg font-bold text-text">
                     {exp.company[lang]}
                   </h3>
-                  <span className="text-sm font-medium text-accent">
-                    {exp.period[lang]}
-                  </span>
+                  <p className="mt-1 font-mono text-xs text-text-muted">
+                    {exp.role[lang]}
+                  </p>
                 </div>
-                <p className="mt-1 text-sm text-text-muted">
-                  {exp.role[lang]} · {exp.location[lang]}
-                </p>
-                <ul className="mt-4 flex flex-col gap-2.5">
-                  {exp.achievements[lang].map((item, i) => (
-                    <li
-                      key={i}
-                      className="flex gap-2.5 text-sm leading-relaxed text-text-muted"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                      />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
+                <div className="font-mono text-xs sm:text-right">
+                  <div className="text-accent">{exp.period[lang]}</div>
+                  <div className="mt-0.5 text-text-faint">
+                    {exp.location[lang]}
+                  </div>
+                </div>
+              </header>
+
+              {/* Numbered achievement rows */}
+              <ol>
+                {exp.achievements[lang].map((item, i) => (
+                  <li
+                    key={i}
+                    className="flex gap-4 border-b border-border px-5 py-3 last:border-b-0 sm:px-6"
+                  >
+                    <span className="shrink-0 pt-px font-mono text-xs text-accent">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span className="text-sm leading-relaxed text-text-muted">
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </article>
           ))}
-        </ol>
+        </div>
       </div>
     </section>
   )

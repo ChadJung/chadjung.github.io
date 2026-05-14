@@ -3,7 +3,8 @@ import { certifications } from '../data/certifications'
 import { SectionHeader } from './SectionHeader'
 
 /**
- * @file Certifications section (#certifications): newest-first timeline.
+ * @file Certifications section (#certifications) — newest-first, rendered
+ * as plain hairline-separated index rows: date · name · issuer.
  */
 export function Certifications() {
   const { lang, t } = useApp()
@@ -14,22 +15,28 @@ export function Certifications() {
   )
 
   return (
-    <section id="certifications" className="px-5 py-24 sm:px-8">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeader title={t('sectionCertifications')} />
+    <section
+      id="certifications"
+      className="border-t border-border px-5 py-20 sm:px-8 sm:py-28"
+    >
+      <div className="mx-auto max-w-5xl">
+        <SectionHeader
+          index="03"
+          title={t('sectionCertifications')}
+          en="Certifications"
+        />
 
-        <ol className="relative ml-3 border-l border-border">
+        <ul className="border-t border-border">
           {sorted.map((cert) => (
-            <li key={cert.id} className="mb-8 pl-8 last:mb-0">
-              <span
-                aria-hidden="true"
-                className="absolute -left-[7px] mt-1.5 h-3.5 w-3.5 rounded-full border-2 border-bg bg-accent"
-              />
-              <div className="rounded-xl border border-border bg-surface p-5">
-                <span className="text-xs font-semibold uppercase tracking-wide text-accent">
-                  {cert.date}
-                </span>
-                <h3 className="mt-1 text-base font-semibold text-text">
+            <li
+              key={cert.id}
+              className="flex flex-col gap-1 border-b border-border py-5 sm:flex-row sm:items-baseline sm:gap-10"
+            >
+              <span className="shrink-0 font-mono text-xs text-accent sm:w-24">
+                {cert.date}
+              </span>
+              <div>
+                <h3 className="text-base font-semibold text-text">
                   {cert.name[lang]}
                 </h3>
                 <p className="mt-0.5 text-sm text-text-muted">
@@ -38,7 +45,7 @@ export function Certifications() {
               </div>
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
     </section>
   )

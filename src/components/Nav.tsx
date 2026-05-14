@@ -6,8 +6,8 @@ import { LangToggle } from './LangToggle'
 import type { UiKey } from '../i18n/ui'
 
 /**
- * @file Fixed top navigation with anchor links, active-section highlight,
- * theme/language controls, and a collapsible mobile menu.
+ * @file Fixed top navigation — monospace links, active-section highlight,
+ * flat theme/language controls, and a collapsible mobile menu.
  */
 const NAV_ITEMS: { id: string; key: UiKey }[] = [
   { id: 'home', key: 'navHome' },
@@ -19,35 +19,32 @@ const NAV_ITEMS: { id: string; key: UiKey }[] = [
 ]
 
 export function Nav() {
-  const { t, lang } = useApp()
+  const { t } = useApp()
   const [open, setOpen] = useState(false)
   const active = useActiveSection(NAV_ITEMS.map((i) => i.id))
 
-  const initials = lang === 'ko' ? '정상준' : 'SJ'
-
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-bg/85 backdrop-blur">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-bg/90 backdrop-blur">
       <nav
         aria-label="Primary"
-        className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8"
+        className="mx-auto flex h-14 max-w-5xl items-center justify-between px-5 sm:px-8"
       >
-        {/* Brand */}
+        {/* Brand — monospace wordmark */}
         <a
           href="#home"
-          className="text-base font-semibold tracking-tight text-text"
+          className="font-mono text-sm font-medium text-text"
         >
-          {initials}
-          <span className="text-accent">.</span>
+          jung<span className="text-accent">.</span>sj
         </a>
 
         {/* Desktop links */}
-        <ul className="hidden items-center gap-1 md:flex">
+        <ul className="hidden items-center gap-6 font-mono text-xs md:flex">
           {NAV_ITEMS.map((item) => (
             <li key={item.id}>
               <a
                 href={`#${item.id}`}
                 aria-current={active === item.id ? 'true' : undefined}
-                className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                className={`transition-colors ${
                   active === item.id
                     ? 'text-accent'
                     : 'text-text-muted hover:text-text'
@@ -60,15 +57,16 @@ export function Nav() {
         </ul>
 
         {/* Desktop controls */}
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-3 md:flex">
           <LangToggle />
+          <span aria-hidden="true" className="h-3 w-px bg-border-strong" />
           <ThemeSwitcher />
         </div>
 
         {/* Mobile hamburger */}
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md text-text md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center text-text md:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? 'Close menu' : 'Open menu'}
@@ -76,17 +74,17 @@ export function Nav() {
         >
           <span className="relative block h-4 w-5">
             <span
-              className={`absolute left-0 block h-0.5 w-5 bg-current transition-transform ${
+              className={`absolute left-0 block h-px w-5 bg-current transition-transform ${
                 open ? 'top-1.5 rotate-45' : 'top-0'
               }`}
             />
             <span
-              className={`absolute left-0 top-1.5 block h-0.5 w-5 bg-current transition-opacity ${
+              className={`absolute left-0 top-1.5 block h-px w-5 bg-current transition-opacity ${
                 open ? 'opacity-0' : 'opacity-100'
               }`}
             />
             <span
-              className={`absolute left-0 block h-0.5 w-5 bg-current transition-transform ${
+              className={`absolute left-0 block h-px w-5 bg-current transition-transform ${
                 open ? 'top-1.5 -rotate-45' : 'top-3'
               }`}
             />
@@ -98,28 +96,32 @@ export function Nav() {
       {open && (
         <div
           id="mobile-menu"
-          className="border-t border-border bg-bg px-5 py-4 md:hidden"
+          className="border-t border-border bg-bg px-5 py-3 md:hidden"
         >
-          <ul className="flex flex-col gap-1">
+          <ul className="flex flex-col font-mono text-sm">
             {NAV_ITEMS.map((item) => (
               <li key={item.id}>
                 <a
                   href={`#${item.id}`}
                   onClick={() => setOpen(false)}
                   aria-current={active === item.id ? 'true' : undefined}
-                  className={`block rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-2 border-b border-border py-3 transition-colors ${
                     active === item.id
-                      ? 'bg-surface text-accent'
-                      : 'text-text-muted hover:bg-surface hover:text-text'
+                      ? 'text-accent'
+                      : 'text-text-muted hover:text-text'
                   }`}
                 >
+                  <span className="text-text-faint">
+                    {active === item.id ? '>' : ' '}
+                  </span>
                   {t(item.key)}
                 </a>
               </li>
             ))}
           </ul>
-          <div className="mt-4 flex items-center gap-2 border-t border-border pt-4">
+          <div className="flex items-center gap-3 py-4">
             <LangToggle />
+            <span aria-hidden="true" className="h-3 w-px bg-border-strong" />
             <ThemeSwitcher />
           </div>
         </div>

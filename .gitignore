@@ -17,8 +17,9 @@ dist-ssr
 .idea
 
 # Project local data / working files (not for public repo)
-data/
-.moai/
-.claude/
-JD.txt
-portfolio_build_prompt.md
+# NOTE: leading slash keeps this root-only — must NOT match src/data/
+/data/
+/.moai/
+/.claude/
+/JD.txt
+/portfolio_build_prompt.md

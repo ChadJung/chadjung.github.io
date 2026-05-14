@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Brand scale: warm amber accent (shared across all 3 themes)         */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-brand-50: #fff8eb;
+  --color-brand-100: #ffedc7;
+  --color-brand-200: #ffd98a;
+  --color-brand-300: #ffc04d;
+  --color-brand-400: #ffa61f;
+  --color-brand-500: #f98a06;
+  --color-brand-600: #dd6602;
+  --color-brand-700: #b74706;
+  --color-brand-800: #94370c;
+  --color-brand-900: #7a2f0d;
+}
+
+/* ------------------------------------------------------------------ */
+/* Semantic theme tokens — mapped per data-theme on <html>.            */
+/* dark = default, light, navy. All formal/calm + amber accent.        */
+/* ------------------------------------------------------------------ */
+:root,
+[data-theme="dark"] {
+  --bg: #15171c;
+  --surface: #1c1f26;
+  --surface-raised: #242832;
+  --text: #e8eaed;
+  --text-muted: #9aa0ab;
+  --border: #2e323c;
+  --accent: #f98a06;
+  --accent-hover: #ffa61f;
+}
+
+[data-theme="light"] {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --text: #1c1f26;
+  --text-muted: #5f636b;
+  --border: #e3e4e2;
+  --accent: #dd6602;
+  --accent-hover: #b74706;
+}
+
+[data-theme="navy"] {
+  --bg: #0f1729;
+  --surface: #16203a;
+  --surface-raised: #1e2a48;
+  --text: #e6eaf2;
+  --text-muted: #94a0b8;
+  --border: #283656;
+  --accent: #f98a06;
+  --accent-hover: #ffa61f;
+}
+
+/* Expose semantic tokens to Tailwind v4 utilities (bg-surface, etc.) */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* offset for fixed nav when jumping to anchors */
+  scroll-padding-top: 5rem;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Visible focus ring for keyboard users across the whole app */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
